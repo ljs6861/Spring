@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<style type="text/css">
+body {
+	font-size: 12px;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$("#btn").click(parsing);
+
+});
+function parsing(){
+	$.ajax({
+		url : "list.do", //QtController.java-->www.su.or.kr
+		type : "get",
+		dataType: "html",
+		success : resultHtml,
+		error : function(){ alert("error")}
+		
+	});
+	
+}
+
+function resultHtml(data){
+	//alert(data);
+
+	
+	
+	var len=$(data).find("tr").length;
+	
+	var bible="<table>";
+	for(var i=0; i<=len; i++){
+		bible+="<tr>";
+		var num=$(data).find("tr").eq(i).text();
+		var td=$(data).find("td").eq(i).text();
+		bible+="<td>" +num+"</td>";
+	
+		bible+="</tr>";
+	}
+	bible+="</table>";
+	
+	$("#list").empty();
+	$("#list").append(bible);
+}
+</script>
+
+
+
+</head>
+<body>
+	
+	<button id="btn">책정보 가져오기</button>
+	<fieldset>
+		<legend>책정보</legend>
+		<div id="list"></div>
+		
+
+	</fieldset>
+
+
+</body>
+</html>
